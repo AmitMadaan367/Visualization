@@ -10,6 +10,8 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 
+from visualapp.forms import *
+from visualapp.models import *
 
 import csv
 import xlwt
@@ -30,6 +32,7 @@ def index(request):
 
 
 
+@login_required(login_url='/signin/')
 def dashboard(request):
     if request.method == 'POST':
         print('amitaaaaaaaaaaaaa')
@@ -44,95 +47,57 @@ def dashboard(request):
         if excel_test[-1]=="x" and excel_test[-2]=="s" and excel_test[-3]=="l" and excel_test[-4]=="x":
             df=pd.read_excel(excel_file)
 
-
                 ## Get working directory
         PATH = os.getcwd()
         ## Path to save the embedding and checkpoints generated
         # os.mkdir('logs')
         LOG_DIR = os.path.join(PATH, 'logs_sampleData4')
-
-
         # # Read data from excel to become dataframe
-
-        # In[3]:
-
 
         ## Load data
         # df = pd.read_excel(os.path.join(PATH, "sampleData3.xlsx"))
 
-
         # # Some samples in excel
-
-        # In[4]:
-
 
         df.head()
 
-
         # # Find keys of columns
-
-        # In[5]:
-
 
         df.columns
 
-
         # # Get vector data and fill nan value by 0
-
-        # In[6]:
-
 
         df_train = df[df.columns[2:]].fillna(0)
         df_train.head()
 
-
         # # Create metadata file which contain index of samples
-
-        # In[7]:
-
 
         ## Load the metadata file. Metadata consists your labels. This is optional. Metadata helps us visualize(color) different clusters that form t-SNE
         metadata_path = os.path.join(LOG_DIR, 'metadata.tsv')
         metadata = df[df.columns[0]]
         metadata
 
-
         # # Write them to hard disk( because input metadata of tensorboad is file)
-
-        # In[8]:
-
 
         with open(metadata_path,'w+') as f:
             f.write('{}\t{}\n'.format('id', 'F'))
             for index, label in enumerate(metadata):
                 f.write('{}\t{}\n'.format(label, df_train['l'][index]))
 
-
         # # Create PCA with n_components is size of sample vectors
-
-        # In[9]:
-
 
         pca = PCA( n_components=len(df_train.columns)-2,
                  random_state = 123,
                  svd_solver='auto')
 
-
         # # Fit data to PCA and create variable from data to tensorflow
-
-        # In[10]:
-
 
         df_pca = pd.DataFrame(pca.fit_transform(df_train))
         df_pca = df_pca.values
         ## TensorFlow Variable from data
         tf_data = tf.Variable(df_pca)
 
-
         # # Open session in tensorflow and add data and metadata to tensorboard
-
-        # In[11]:
-
 
         ## Running TensorFlow Session
         with tf.compat.v1.Session() as sess:
@@ -156,9 +121,66 @@ def dashboard(request):
         return render(request,'sucess.html')
     return render(request,'userdashboard.html')
 
+@login_required(login_url='/signin/')
+
 def updateboard(request):
     os.system('fuser -k 6006/tcp')
-    os.system('nohup tensorboard --logdir=./logs_sampleData4/ --host 0.0.0.0 --port 6006 &')
+    os.system('nohup tensorboard --logdir=/home/ubuntu/visual/logs_sampleData4/ --host 0.0.0.0 --port 6006 &')
     os.system('\r\n')
     # return HttpResponse("tensorboard is updated succesfully")
-    return render(request,'sucess2.html')
+    return render(request,'final.html')
+
+
+
+def signup_page(request):
+    if request.method=="POST":
+        form=signupform(request.POST)
+        if form.is_valid():
+            name=request.POST["Name"]
+            email=request.POST["Email"]
+            password=request.POST["Password"]
+            Firstname=request.POST["Firstname"]
+            lastname=request.POST["lastname"]
+            user = User.objects.create_user(username=name,email=email,password=password,first_name=Firstname,last_name=lastname)
+            user.save()
+            return redirect('/signin/')
+    else:
+        form = signupform()
+        print("notdshksfdhjsdfhsdfahlsafd")
+    return render(request,'signup.html',{"form":form})
+
+
+
+
+
+def login_user(request):
+    if request.user.is_authenticated:
+        print("Logged in")
+        return redirect("/userdash/")
+    else:
+        print("Not logged in")
+
+    if request.method == 'POST':
+        form = loginform(request.POST)
+        if form.is_valid():
+            username = request.POST.get('Username')
+            print(username)
+            password = request.POST.get('Password')
+            print(password)
+            user = authenticate(username=username, password=password)
+            if user:
+                print("yesssssssssssssssss")
+                login(request,user)
+                return redirect("/userdash/")
+
+    else:
+        form = loginform()
+        print("not")
+    return render(request, 'signin.html', {"form": form})
+
+@login_required(login_url='/signin/')
+def user_logout(request):
+    logout(request)
+    return redirect('/signin/')
+
+

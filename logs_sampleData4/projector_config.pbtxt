@@ -1,0 +1,4 @@
+embeddings {
+  tensor_name: "Variable:0"
+  metadata_path: "C:\\Users\\Administrator\\Desktop\\visual\\logs_sampleData4\\metadata.tsv"
+}
