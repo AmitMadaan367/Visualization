@@ -1,0 +1,61 @@
+
+        {% extends 'dash.html' %}
+        {% block content %}
+      
+        <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+      <label class="col-md-2 control-label">
+
+<h1>SignUp</h1>
+</label>
+    <div class="form-group">
+
+<label class="col-md-2 control-label">
+
+{{form.Name.label}}
+</label>
+        <div class="col-md-6">
+{{form.Name}}
+                </div>
+    </div>
+    {{form.errors.Name}}
+        <div class="form-group">
+<label class="col-md-2 control-label">
+    {{form.Password.label}}
+</label>
+        <div class="col-md-6">
+    {{form.Password}}
+        </div>
+{{form.errors.Password}}
+           <div class="form-group">
+<label class="col-md-2 control-label">    {{form.Firstname.label}}
+</label>
+                    <div class="col-md-6">
+
+    {{form.Firstname}}
+
+        </div>
+        </div>
+         <div class="form-group">
+    <label class="col-md-2 control-label"> {{form.lastname.label}}</label>
+
+             <div class="col-md-6">
+    {{form.lastname}}
+        </div>
+         </div>
+
+    <div class="form-group">
+<label class="col-md-2 control-label">
+        {{form.Email.label}}
+</label>
+        <div class="col-md-6">
+{{form.Email}}
+        </div>
+    </div>
+    {{form.Email.errors}}
+
+  
+    <input type="submit" value="submit" class="btn btn-primary">
+</form>
+
+  {% endblock %}

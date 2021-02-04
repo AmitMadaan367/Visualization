@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Highlight Text</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
+    
+    
+ 
+    
+    
+    <script>
+        $(document).ready(function(){
+            $('.setting_btn').click(function(){
+                $('.settingData').toggleClass('hide');
+            });
+
+
+            $('.dropdown-toggle').click(function(){
+              $('ul.dropdown-menu').toggleClass('show');
+            });
+        });
+
+      document.getElementById('output').innerHTML = location.search;
+      $(".chosen-select").chosen();
+    </script>
+</head>
+
+
+
+<body>
+
+<div class="wrapper d-flex align-items-stretch">
+      <nav id="sidebar" class="active">
+        <h1><a href='https://dynamic.brandcrowd.com/asset/logo/59608730-f769-44cc-8d3c-712e883cfe7a/logo?v=4&text=Highlight+Text' class="logo">Highlight Text</a></h1>
+        <ul class="list-unstyled components mb-5">
+          <li class="active">
+            <a href="/userdash/"><span class="fa fa-home"></span> Home</a>
+          </li>
+          
+
+          <li>
+              <a href="/logout/"><span class="fa fa-user"></span> Logout</a>
+          </li>
+        
+
+
+
+        </ul>
+
+        
+      </nav>
+
+        <!-- Page Content  -->
+      <div id="content" class="p-4 p-md-5">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="container-fluid">
+
+    
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="nav navbar-nav ml-auto">
+               <li class="nav-item active">
+                    <a class="nav-link" href="/userdash/">Home</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Hi {{user.username}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout/">Logout</a>
+                </li>
+                
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <h2 class="mb-4"></h2>
+<div class=top>
+  <div>
+    <span class='span-graph'><a class='show-graph' href='/userdash/' style='font-weight: 600; text-transform: capitalize; letter-spacing: 2px; font-size: 24px; background-color: #50758a; padding: 7px 24px; text-decoration :none;color: white; border-radius: 8px; cursor: pointer;'>Click here to Read csv again</a></span> 
+  </div>
+<div  class='amit'>
+
+
+<div class="content_js">
+
+  {% for i in data5 %}
+<img src="data:image/png;base64,{{ i|safe }}">
+{% endfor %}
+</div>
+
+    </div>
+   
+</div>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/popper.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/main.js"></script>
+    
+
+<script type="text/javascript">
+      var cl = console.log;
+      var options = [];     
+      $("#submit").click(function(){
+          options = [];
+        $('.dropdown ul li .checkbox input[type=checkbox]:checked').each(function() {
+          options.push(this.value)
+           // console.log();
+
+        });
+        setTimeout(function(){ 
+          cl(options);
+        }, 500);
+      })
+    </script>
+
+  </body>
+
+
+</html>
+
+
+        
+
+
